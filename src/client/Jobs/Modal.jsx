@@ -6,7 +6,7 @@ function Modal({ onClose }) {
   const [number, setNum] = useState("");
 
   const handleSubmit = () => {
-    // Todo: use fetch with post method and add required attributes to fetch
+    // Todo: upload file and proper validation for form fields.
     fetch("/api/job/apply", { method: "POST", body: { name, email, number } })
       .then((res) => res.json())
       .then((jobsRes) => setJObItems(jobsRes.jobs))
