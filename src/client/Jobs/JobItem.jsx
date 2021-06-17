@@ -10,15 +10,18 @@ function JobItem({ position, logo, skills }) {
   return (
     <div class="jobitem">
       <img class="logo" src={logo} alt="logo" />
-      <div>
-        <h2>{position}</h2>
+      <div class="jobitem-info">
+        <h2 class="title"> {position}</h2>
         <div class="row">
           {skills.map((s) => {
-            return <p>{s}</p>;
+            return (
+              <p class="skill" key={s}>
+                {s}
+              </p>
+            );
           })}
         </div>
       </div>
-
       <button onClick={toggleApplyModal}>apply</button>
       {showJobApplyModal && <Modal onClose={toggleApplyModal} />}
     </div>

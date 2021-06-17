@@ -70,7 +70,6 @@ function Jobs() {
     setCheckboxes(updated);
   };
 
-  console.log("job items and search: ", jobItemsToShow, searchText);
   return (
     <div>
       <div class="row">
