@@ -1,0 +1,13 @@
+h1 {
+  color: green;
+}
+
+body {
+  text-align: center;
+  margin: auto;
+  box-sizing: border-box;
+  width: 80%;
+  height: 100%;
+  padding: 15%;
+  padding-top: 5%;
+}
