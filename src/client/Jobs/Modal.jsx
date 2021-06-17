@@ -22,6 +22,7 @@ function Modal({ onClose }) {
       .then((res) => res.json())
       .then((jobsRes) => setJObItems(jobsRes.jobs))
       .then(() => {
+        onClose();
         alert("succesfully submitted");
       })
       .catch((err) => console.log("job items fetch err", err));
