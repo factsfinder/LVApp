@@ -33,11 +33,14 @@ app.get("/api/getJobs", async (req, res) => {
 app.get("/api/searchJobs", async (req, res) => {
   const { partTime, freelance, searchText, fullTime } = req.query;
   let jobs = [];
-  const types = [
+  let types = [
     freelance === "true" && "Freelancer",
     partTime === "true" && "Part Time",
     fullTime === "true" && "Full Time",
   ].filter((x) => x);
+  if (types.length === 0) {
+    types = ["Full Time"];
+  }
   const jobQuery = {
     position: { $regex: searchText, $options: "i" },
     type: { $in: types },
