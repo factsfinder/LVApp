@@ -60,3 +60,13 @@
   text-decoration: none;
   cursor: pointer;
 }
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form input {
+  margin: 10px;
+  padding: 10px;
+}

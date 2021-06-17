@@ -8,9 +8,27 @@ function Jobs() {
   const [jobItems, setJObItems] = useState([]);
   const [searchItems, setSearchItems] = useState([]);
   const [searchText, setSearchText] = useState("");
-  const [isPartTimeChecked, setIsPartTimeChecked] = useState(false);
-  const [isFullTimeChecked, setIsFullTimeChecked] = useState(true);
-  const [isFreelancerChecked, setIsFreelancerChecked] = useState(false);
+
+  const [checkboxes, setCheckboxes] = useState([
+    {
+      checked: false,
+      label: "Part-Time",
+      name: "part",
+      index: 0,
+    },
+    {
+      checked: false,
+      label: "Full-Time",
+      name: "full",
+      index: 1,
+    },
+    {
+      checked: false,
+      label: "Freelance",
+      name: "freelance",
+      index: 2,
+    },
+  ]);
 
   const jobItemsToShow = searchText.length > 0 ? searchItems : jobItems; // naming can be better.
 
@@ -23,9 +41,15 @@ function Jobs() {
 
   useEffect(() => {
     if (searchText.length > 0) {
+      const isPartTimeChecked =
+        checkboxes.find((c) => c.name === "part").checked === true;
+      const isFreelancerChecked =
+        checkboxes.find((c) => c.name === "freelance").checked === true;
+      const isFullTimeChecked =
+        checkboxes.find((c) => c.name === "full").checked === true;
       // Todo: debounce this
       fetch(
-        `/api/searchJobs?searchText=${searchText}&partTime=${isPartTimeChecked}&freelancer=${isFreelancerChecked}`
+        `/api/searchJobs?searchText=${searchText}&partTime=${isPartTimeChecked}&freelance=${isFreelancerChecked}&fullTime=${isFullTimeChecked}`
       )
         .then((res) => res.json())
         .then((jobsRes) => {
@@ -36,23 +60,33 @@ function Jobs() {
     }
   }, [searchText]);
 
-  const handleChangeCheckBox = (e) => {};
+  const handleChangeCheckBoxs = (e) => {
+    const updated = checkboxes.map((c) => {
+      if (c.name === e.target.name) {
+        return { ...c, checked: !c.checked };
+      }
+      return c;
+    });
+    setCheckboxes(updated);
+  };
 
   console.log("job items and search: ", jobItemsToShow, searchText);
   return (
     <div>
       <div class="row">
         <SearchBar onChange={setSearchText} />
-        <CheckBox label="Full-Time" isChecked={isFullTimeChecked} name="full" />
-        <CheckBox label="Part-Time" isChecked={isPartTimeChecked} name="part" />
-        <CheckBox
-          label="Freelancer"
-          isChecked={isFreelancerChecked}
-          name="freelance"
-        />
+        {checkboxes.map((c) => (
+          <CheckBox
+            key={c.name}
+            label={c.label}
+            isChecked={c.checked}
+            name={c.name}
+            handleToggle={handleChangeCheckBoxs}
+          />
+        ))}
       </div>
       {jobItemsToShow.map((j) => {
-        return <JobItem {...j} />;
+        return <JobItem {...j} key={j._id} />;
       })}
     </div>
   );
